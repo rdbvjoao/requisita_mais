@@ -1,0 +1,38 @@
+@page
+@model RequisitaPlus.Web.Areas.Identity.Pages.Account.LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Entrar";
+}
+<section class="auth-page" aria-labelledby="auth-title">
+<div class="auth-card">
+    <header class="auth-header">
+        <img src="~/images/requisita-logo.svg" alt="Requisita+" width="226" height="50" />
+        <h1 id="auth-title">Bem-vindo de volta</h1>
+        <p>Entre na sua conta para acessar seus requisitos.</p>
+    </header>
+    <form class="auth-form" method="post" asp-route-returnUrl="@Model.ReturnUrl">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="mb-3">
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" maxlength="150" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="form-check auth-remember">
+            <input asp-for="Input.RememberMe" class="form-check-input" />
+            <label asp-for="Input.RememberMe" class="form-check-label">@Html.DisplayNameFor(m => m.Input.RememberMe)</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+    <footer class="auth-footer">
+        <p>Não possui uma conta? <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Model.ReturnUrl">Cadastre-se</a></p>
+    </footer>
+</div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,31 @@
+@model IReadOnlyList<RequisitaPlus.Web.ViewModels.Requisitos.DetalhesRequisitoViewModel>
+@inject RequisitaPlus.Web.Services.RelogioLocal Relogio
+@if (Model.Count == 0)
+{
+    <div class="empty-state" role="status"><h2>Nenhum requisito encontrado.</h2><p class="mb-0">Os requisitos desta área aparecerão aqui quando estiverem disponíveis.</p></div>
+}
+else
+{
+    <div class="list-panel">
+        <div class="table-responsive" tabindex="0" role="region" aria-label="Lista de requisitos">
+        <table class="table align-middle requirements-table">
+            <caption>@Model.Count requisito(s). Datas no horário de São Paulo.</caption>
+            <thead><tr><th scope="col">Título</th><th scope="col">Prioridade</th><th scope="col">Status</th><th scope="col">Cadastro</th><th scope="col">Ações</th></tr></thead>
+            <tbody>
+                @foreach (var requisito in Model)
+                {
+                    var prioridadeClasse = requisito.Prioridade switch { "Alta" => "priority-high", "Média" => "priority-medium", "Baixa" => "priority-low", _ => "" };
+                    var statusClasse = requisito.Status switch { "Rascunho" => "status-draft", "Analisado" => "status-analyzed", "Revisado" => "status-reviewed", "Arquivado" => "status-archived", _ => "" };
+                    <tr>
+                        <td class="text-break">@requisito.Titulo</td>
+                        <td><span class="priority-badge @prioridadeClasse">@requisito.Prioridade</span></td>
+                        <td><span class="status-badge @statusClasse">@requisito.Status</span></td>
+                        <td class="text-nowrap"><time datetime="@requisito.DataCadastroUtc.ToString("yyyy-MM-ddTHH:mm:ss'Z'")">@Relogio.ParaApresentacao(requisito.DataCadastroUtc).ToString("dd/MM/yyyy HH:mm")</time></td>
+                        <td><a asp-action="Detalhes" asp-route-id="@requisito.IdRequisito" class="btn btn-outline-primary btn-sm text-nowrap" aria-label="Ver detalhes de @requisito.Titulo">Ver detalhes <span aria-hidden="true">→</span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+}

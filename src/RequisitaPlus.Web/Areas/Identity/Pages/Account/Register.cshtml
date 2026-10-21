@@ -1,0 +1,45 @@
+@page
+@model RequisitaPlus.Web.Areas.Identity.Pages.Account.RegisterModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Cadastrar";
+}
+<section class="auth-page" aria-labelledby="auth-title">
+<div class="auth-card">
+    <header class="auth-header">
+        <img src="~/images/requisita-logo.svg" alt="Requisita+" width="226" height="50" />
+        <h1 id="auth-title">Crie sua conta</h1>
+        <p>Cadastre-se para começar a organizar e analisar seus requisitos.</p>
+    </header>
+    <form class="auth-form" method="post" asp-route-returnUrl="@Model.ReturnUrl">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="mb-3">
+            <label asp-for="Input.Nome"></label>
+            <input asp-for="Input.Nome" class="form-control" autocomplete="name" maxlength="100" />
+            <span asp-validation-for="Input.Nome" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" maxlength="150" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-describedby="password-help" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <p id="password-help" class="form-text">Use pelo menos oito caracteres, maiúscula, minúscula, número e caractere especial.</p>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Input.ConfirmPassword"></label>
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Criar conta</button>
+    </form>
+    <footer class="auth-footer">
+        <p>Já possui uma conta? <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Model.ReturnUrl">Entrar</a></p>
+    </footer>
+</div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

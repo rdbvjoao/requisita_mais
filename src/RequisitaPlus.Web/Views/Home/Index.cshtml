@@ -1,0 +1,31 @@
+@{ ViewData["Title"] = "Início"; }
+<section class="hero" aria-labelledby="boas-vindas">
+    <div>
+        <span class="eyebrow">Organização · Análise · Clareza</span>
+        <h1 id="boas-vindas">Requisitos mais claros. Projetos mais consistentes.</h1>
+        <p class="lead">Organize, analise e aprimore requisitos de software com o apoio de inteligência artificial.</p>
+        <div class="actions">
+            <a asp-controller="Requisitos" asp-action="Index" class="btn btn-primary">Meus requisitos <span aria-hidden="true">→</span></a>
+            <a asp-controller="Requisitos" asp-action="Criar" class="btn btn-outline-secondary">Cadastrar requisito</a>
+        </div>
+    </div>
+    <aside class="hero-illustration" aria-label="Como funciona o Requisita+">
+        <div class="workflow">
+            <div class="workflow-title"><img src="~/images/requisita-logo.svg" alt="Requisita+" width="158" height="35" /></div>
+            <p class="eyebrow">Do texto à revisão</p>
+            <ol>
+                <li><span class="step" aria-hidden="true">1</span><div><strong>Organize os requisitos</strong><small>Registre o comportamento esperado.</small></div></li>
+                <li><span class="step" aria-hidden="true">2</span><div><strong>Analise com IA local</strong><small>Identifique pontos que precisam de clareza.</small></div></li>
+                <li><span class="step" aria-hidden="true">3</span><div><strong>Revise com critério</strong><small>A decisão continua sendo humana.</small></div></li>
+            </ol>
+        </div>
+    </aside>
+</section>
+<section aria-labelledby="funcionalidades">
+    <div class="page-heading"><div><span class="eyebrow">Mais clareza, em cada etapa</span><h2 id="funcionalidades" class="h3">Tudo no contexto do requisito</h2></div></div>
+    <div class="feature-grid">
+        <article class="feature-card"><span class="feature-icon" aria-hidden="true">✦</span><h3>Análise com IA</h3><p>Identifique ambiguidades, termos vagos e problemas de qualidade textual, recebendo sugestões de melhoria.</p></article>
+        <article class="feature-card"><span class="feature-icon" aria-hidden="true">↺</span><h3>Histórico de análises</h3><p>Consulte resultados anteriores e acompanhe análises vinculadas aos requisitos.</p></article>
+        <article class="feature-card"><span class="feature-icon" aria-hidden="true">☷</span><h3>Controle de requisitos</h3><p>Cadastre, consulte, edite e arquive requisitos de software de maneira organizada.</p></article>
+    </div>
+</section>

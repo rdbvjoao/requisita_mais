@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 226 50" fill="none">
+<path d="M6 5h23l10 10v30H6z" stroke="#142D4E" stroke-width="3" stroke-linejoin="round"/>
+<path d="M28 5v11h11M13 23h16M13 30h9" stroke="#3478C0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="m24 37 4 4 9-10" stroke="#3478C0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="51" y="34" fill="#142D4E" font-family="Segoe UI,Arial,sans-serif" font-size="29" font-weight="700">Requisita<tspan fill="#3478C0">+</tspan></text>
+</svg>

@@ -1,0 +1,68 @@
+@model RequisitaPlus.Web.ViewModels.Requisitos.ListagemRequisitosViewModel
+@{ ViewData["Title"] = "Meus requisitos"; }
+<div class="page-heading">
+    <div><span class="eyebrow">Gestão de requisitos</span><h1>Meus requisitos</h1><p class="text-muted">Organize seus requisitos e acompanhe cada versão.</p></div>
+    <div class="actions">
+        <a asp-action="Arquivados" class="btn btn-outline-secondary">Arquivados</a>
+        <a asp-action="Criar" class="btn btn-primary">Cadastrar requisito</a>
+    </div>
+</div>
+<section class="metrics requirements-metrics" aria-label="Resumo de todos os seus requisitos" aria-describedby="indicadores-nota">
+    <div class="metric-card"><span class="metric-label">Requisitos ativos</span><strong class="metric-value">@Model.Indicadores.Ativos</strong><small>Não arquivados</small></div>
+    <div class="metric-card"><span class="metric-label">Analisados pela IA</span><strong class="metric-value">@Model.Indicadores.AnalisadosPelaIa</strong><small>Com ao menos uma análise salva</small></div>
+    <div class="metric-card"><span class="metric-label">Sugestões pendentes</span><strong class="metric-value">@Model.Indicadores.SugestoesPendentes</strong><small>Aguardando decisão</small></div>
+    <div class="metric-card"><span class="metric-label">Requisitos arquivados</span><strong class="metric-value">@Model.Indicadores.Arquivados</strong><small>Histórico preservado</small></div>
+</section>
+<p id="indicadores-nota" class="text-muted small mb-4">Os indicadores consideram todos os seus registros, independentemente dos filtros. Análises salvas e sugestões pendentes incluem requisitos arquivados.</p>
+<section class="requirements-filters" aria-labelledby="filtros-titulo">
+    <h2 id="filtros-titulo" class="h5 mb-3">Encontre um requisito</h2>
+    <form asp-action="Index" method="get">
+        <div asp-validation-summary="All" role="alert"></div>
+        <div class="requirements-filter-fields">
+            <div class="requirements-search">
+                <label for="Pesquisa" class="form-label">Pesquisar por título</label>
+                <input id="Pesquisa" name="Pesquisa" value="@Model.Filtros.Pesquisa" type="search" maxlength="150" class="form-control" placeholder="Digite parte do título" />
+            </div>
+            <div>
+                <label for="Prioridade" class="form-label">Prioridade</label>
+                <select id="Prioridade" name="Prioridade" class="form-select">
+                    <option value="">Todas as prioridades</option>
+                    @foreach (var prioridade in new[] { "Alta", "Média", "Baixa" })
+                    {
+                        <option value="@prioridade" selected="@(Model.Filtros.Prioridade == prioridade)">@prioridade</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label for="Status" class="form-label">Status do requisito</label>
+                <select id="Status" name="Status" class="form-select">
+                    <option value="">Todos os ativos</option>
+                    @foreach (var status in new[] { "Rascunho", "Analisado", "Revisado", "Arquivado" })
+                    {
+                        <option value="@status" selected="@(Model.Filtros.Status == status)">@status</option>
+                    }
+                </select>
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Limpar filtros</a>
+            </div>
+        </div>
+    </form>
+</section>
+<div class="requirements-results-heading">
+    <h2 class="h5 mb-0">@(Model.Filtros.Status == "Arquivado" ? "Requisitos arquivados" : "Seus requisitos ativos")</h2>
+    <span class="text-muted small" role="status">@Model.Requisitos.Count resultado(s)</span>
+</div>
+@if (Model.Requisitos.Count == 0 && Model.Filtros.TemFiltros)
+{
+    <div class="empty-state" role="status">
+        <h2>Nenhum requisito corresponde aos filtros.</h2>
+        <p>Altere a pesquisa ou os filtros para encontrar outros registros.</p>
+        <a asp-action="Index" class="btn btn-outline-primary">Limpar filtros</a>
+    </div>
+}
+else
+{
+    <partial name="_Lista" model="Model.Requisitos" />
+}

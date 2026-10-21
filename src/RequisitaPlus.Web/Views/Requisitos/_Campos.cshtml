@@ -1,0 +1,23 @@
+@model RequisitaPlus.Web.ViewModels.Requisitos.CriarRequisitoViewModel
+<div class="mb-3">
+    <label asp-for="Titulo" class="form-label"></label>
+    <input asp-for="Titulo" class="form-control" maxlength="150" required data-val-naobranco="Informe um título que não contenha apenas espaços." aria-describedby="titulo-ajuda" />
+    <div id="titulo-ajuda" class="form-text">Até 150 caracteres.</div>
+    <span asp-validation-for="Titulo" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Descricao" class="form-label"></label>
+    <textarea asp-for="Descricao" class="form-control" rows="10" maxlength="5000" required data-val-naobranco="Informe uma descrição que não contenha apenas espaços." aria-describedby="descricao-ajuda"></textarea>
+    <div id="descricao-ajuda" class="form-text">Até 5.000 caracteres. Descreva o comportamento esperado.</div>
+    <span asp-validation-for="Descricao" class="text-danger"></span>
+</div>
+<div class="mb-4">
+    <label asp-for="Prioridade" class="form-label"></label>
+    <select asp-for="Prioridade" class="form-select" required>
+        <option value="">Selecione a prioridade</option>
+        <option value="Alta">Alta</option>
+        <option value="Média">Média</option>
+        <option value="Baixa">Baixa</option>
+    </select>
+    <span asp-validation-for="Prioridade" class="text-danger"></span>
+</div>

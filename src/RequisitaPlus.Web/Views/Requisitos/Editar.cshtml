@@ -1,0 +1,24 @@
+@model RequisitaPlus.Web.ViewModels.Requisitos.EditarRequisitoViewModel
+@{ ViewData["Title"] = "Editar requisito"; }
+<span class="eyebrow">Gestão de requisitos</span>
+<h1>Editar requisito</h1>
+<p class="text-muted">Alterar o título ou a descrição inicia uma nova versão em Rascunho. Análises e decisões anteriores são preservadas. Alterar somente a prioridade mantém a versão e o status.</p>
+<form asp-action="Editar" asp-route-id="@Context.Request.RouteValues["id"]" method="post" class="form-panel">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <input asp-for="VersaoEsperada" type="hidden" />
+    <input asp-for="RowVersion" type="hidden" />
+    <partial name="_Campos" model="Model" />
+    @if (Context.Response.StatusCode != 409)
+    {
+        <button type="submit" class="btn btn-primary">Salvar alterações</button>
+    }
+    else
+    {
+        <a asp-action="Editar" asp-route-id="@Context.Request.RouteValues["id"]" class="btn btn-primary">Recarregar página</a>
+    }
+    <a asp-action="Detalhes" asp-route-id="@Context.Request.RouteValues["id"]" class="btn btn-outline-secondary">Cancelar</a>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/requisitos-validacao.js" asp-append-version="true"></script>
+}

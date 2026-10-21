@@ -1,0 +1,26 @@
+@model RequisitaPlus.Web.Models.OperacaoAnalise
+@inject RequisitaPlus.Web.Services.IA.OllamaDisponibilidade Disponibilidade
+@{
+    ViewData["Title"] = "Operação de análise";
+    var limite = Disponibilidade.TryObter(out var options, out _) ? options!.OperationTimeoutSeconds : 60;
+    var excedeu = DateTime.UtcNow >= Model.CriadaEmUtc.AddSeconds(limite);
+}
+<span class="eyebrow">Inteligência artificial local</span>
+<h1>Operação de análise</h1>
+<section class="surface mb-4" aria-label="Estado da análise">
+@if (Model.Estado == "Incerta")
+{
+    <p class="alert alert-warning">Não foi possível concluir a análise: a comunicação foi interrompida sem comprovação do término. Novas inferências estão bloqueadas para recuperação operacional.</p>
+}
+else if (Model.Estado == "FalhaEncerrada")
+{
+    <p class="alert alert-warning">Não foi possível concluir a análise. @(Model.MotivoFalha == "TempoLimite" ? "O prazo da IA foi excedido." : Model.MotivoFalha == "ConflitoOuFalhaPersistencia" ? "Houve concorrência ou falha ao salvar o resultado. Recarregue o requisito antes de confirmar uma nova análise." : "A resposta da IA não passou pela validação. Nenhuma sugestão inválida foi salva.")</p>
+}
+else if (excedeu)
+{
+    <p class="alert alert-warning">Não foi possível concluir a análise dentro do prazo. O término da inferência ainda está sendo acompanhado; novas inferências permanecem bloqueadas. Uma resposta tardia não será salva como análise.</p>
+}
+else { <p role="status">Análise em andamento. Aguarde e atualize esta página para consultar o resultado.</p> }
+</section>
+<a asp-action="Operacao" asp-route-id="@Model.IdOperacao" class="btn btn-outline-primary">Atualizar estado</a>
+<a asp-controller="Requisitos" asp-action="Detalhes" asp-route-id="@Model.IdRequisito" class="btn btn-outline-secondary">Voltar ao requisito</a>

@@ -1,0 +1,17 @@
+@model RequisitaPlus.Web.ViewModels.Analises.HistoricoAnaliseViewModel
+@inject RequisitaPlus.Web.Services.RelogioLocal Relogio
+@{ ViewData["Title"] = "Histórico de análises"; }
+<span class="eyebrow">Inteligência artificial local</span>
+<h1>Histórico de análises</h1>
+<h2 class="h4 text-break">@Model.Requisito.Titulo</h2>
+@if (Model.Analises.Count == 0) { <p class="empty-state" role="status">Nenhuma análise encontrada.</p> }
+else
+{
+    <ul class="history-list">
+    @foreach (var item in Model.Analises)
+    {
+        <li><a asp-action="Detalhes" asp-route-id="@item.IdAnalise">Análise @item.OrdemPersistencia — versão @item.VersaoTextualAnalisada — @Relogio.ParaApresentacao(item.PersistidaEmUtc).ToString("dd/MM/yyyy HH:mm:ss") (São Paulo)</a></li>
+    }
+    </ul>
+}
+<a class="btn btn-outline-secondary" asp-controller="Requisitos" asp-action="Detalhes" asp-route-id="@Model.Requisito.IdRequisito">Voltar ao requisito</a>

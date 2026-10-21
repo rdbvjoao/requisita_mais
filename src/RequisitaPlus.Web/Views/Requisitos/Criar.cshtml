@@ -1,0 +1,15 @@
+@model RequisitaPlus.Web.ViewModels.Requisitos.CriarRequisitoViewModel
+@{ ViewData["Title"] = "Cadastrar requisito"; }
+<span class="eyebrow">Gestão de requisitos</span>
+<h1>Cadastrar requisito</h1>
+<p class="text-muted">O requisito será cadastrado como Rascunho.</p>
+<form asp-action="Criar" method="post" class="form-panel">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <partial name="_Campos" model="Model" />
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/requisitos-validacao.js" asp-append-version="true"></script>
+}

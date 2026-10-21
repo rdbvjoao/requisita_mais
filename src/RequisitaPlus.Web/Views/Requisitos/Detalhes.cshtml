@@ -1,0 +1,52 @@
+@model RequisitaPlus.Web.ViewModels.Requisitos.DetalhesRequisitoViewModel
+@inject RequisitaPlus.Web.Services.RelogioLocal Relogio
+@{ ViewData["Title"] = "Detalhes do requisito"; }
+<span class="eyebrow">Detalhes do requisito</span>
+<h1 class="text-break">@Model.Titulo</h1>
+<div asp-validation-summary="All" class="text-danger" role="alert"></div>
+<section class="surface mb-4">
+<dl class="metadata">
+    <div><dt>Prioridade</dt><dd>@Model.Prioridade</dd></div>
+    <div><dt>Status</dt><dd>@Model.Status</dd></div>
+    <div><dt>Versão textual</dt><dd>@Model.VersaoTextual</dd></div>
+    <div><dt>Cadastro (São Paulo)</dt><dd>@Relogio.ParaApresentacao(Model.DataCadastroUtc).ToString("dd/MM/yyyy HH:mm")</dd></div>
+    @if (Model.DataAtualizacaoUtc is { } atualizacao)
+    {
+        <div><dt>Atualização (São Paulo)</dt><dd>@Relogio.ParaApresentacao(atualizacao).ToString("dd/MM/yyyy HH:mm")</dd></div>
+    }
+</dl>
+<h2 class="h4">Descrição</h2>
+<div class="text-snapshot mb-4">@Model.Descricao</div>
+<div class="actions mb-4">
+    <a asp-action="@(Model.Status == "Arquivado" ? "Arquivados" : "Index")" class="btn btn-outline-secondary">Voltar à lista</a>
+    @if (Model.Status != "Arquivado")
+    {
+        <a asp-action="Editar" asp-route-id="@Model.IdRequisito" class="btn btn-primary">Editar</a>
+        <a asp-controller="Analises" asp-action="Confirmar" asp-route-id="@Model.IdRequisito" class="btn btn-outline-primary">Analisar com IA</a>
+    }
+</div>
+</section>
+<p><a asp-controller="Analises" asp-action="Historico" asp-route-id="@Model.IdRequisito">Histórico de análises</a></p>
+@if (Model.Status == "Arquivado")
+{
+    <p class="alert alert-secondary">Requisito arquivado. Consulta somente leitura, sem restauração.</p>
+}
+else if (Context.Response.StatusCode == 409)
+{
+    <a asp-action="Detalhes" asp-route-id="@Model.IdRequisito" class="btn btn-primary">Recarregar detalhes</a>
+}
+else
+{
+    <details class="danger-zone">
+        <summary class="text-danger">Excluir requisito (arquivamento)</summary>
+        <p class="mt-3">O requisito sairá da lista principal. Seu conteúdo, análises e decisões serão preservados. Esta ação não pode ser desfeita.</p>
+        <form asp-action="Arquivar" asp-route-id="@Model.IdRequisito" method="post">
+            <input type="hidden" name="RowVersion" value="@Model.RowVersion" />
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" name="Confirmacao" id="confirmacao" value="true" required />
+                <label class="form-check-label" for="confirmacao">Confirmo o arquivamento deste requisito.</label>
+            </div>
+            <button type="submit" class="btn btn-outline-danger">Arquivar requisito</button>
+        </form>
+    </details>
+}

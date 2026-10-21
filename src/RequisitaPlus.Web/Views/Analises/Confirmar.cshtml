@@ -1,0 +1,27 @@
+@model RequisitaPlus.Web.ViewModels.Analises.ConfirmarAnaliseViewModel
+@{ ViewData["Title"] = "Analisar com IA"; }
+<span class="eyebrow">Inteligência artificial local</span>
+<h1>Analisar com IA</h1>
+<div asp-validation-summary="All" class="text-danger" role="alert"></div>
+@if (Context.Response.StatusCode == 409)
+{
+    <p><a asp-action="Confirmar" asp-route-id="@Model.Requisito!.IdRequisito">Recarregar a confirmação com a versão atual</a></p>
+}
+<p>O título e a descrição serão processados localmente pelo Ollama. A IA pode errar: todas as sugestões precisam de revisão humana e não alteram o requisito.</p>
+<section class="surface mb-4">
+<h2 class="h4 text-break">@Model.Requisito!.Titulo</h2>
+<p>Versão textual: @Model.Versao</p>
+<div class="text-snapshot mb-4">@Model.Requisito.Descricao</div>
+</section>
+<form class="form-panel" asp-action="Iniciar" asp-route-id="@Model.Requisito.IdRequisito" method="post">
+    <input asp-for="IdOperacao" type="hidden" />
+    <input asp-for="Versao" type="hidden" />
+    <input asp-for="RowVersion" type="hidden" />
+    <div class="form-check mb-3">
+        <input asp-for="Confirmacao" class="form-check-input" required />
+        <label asp-for="Confirmacao" class="form-check-label">Confirmo esta análise local do título e da descrição apresentados.</label>
+    </div>
+    <button class="btn btn-primary" type="submit">Analisar com IA</button>
+    <a asp-controller="Requisitos" asp-action="Detalhes" asp-route-id="@Model.Requisito.IdRequisito" class="btn btn-outline-secondary">Cancelar</a>
+</form>
+<p class="mt-3" role="status">Após confirmar, aguarde a análise. A geração pode levar até o prazo configurado; não é necessário reenviar o formulário.</p>

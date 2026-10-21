@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RequisitaPlus.Web/RequisitaPlus.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RequisitaPlus.Tests/RequisitaPlus.Tests.csproj" />
+  </Folder>
+</Solution>

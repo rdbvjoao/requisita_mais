@@ -1,0 +1,55 @@
+
+# Requisita+ - Git Ignore
+
+# .NET / ASP.NET Core
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# VS Code - configuracoes locais
+.vscode/*
+!.vscode/extensions.json
+
+# Segredos e configuracoes locais
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+appsettings.Secrets.json
+appsettings.*.Secrets.json
+secrets.json
+*.pfx
+*.p12
+*.key
+
+# Logs e temporarios
+*.log
+logs/
+temp/
+tmp/
+*.tmp
+
+# Bancos locais e backups
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.bak
+*.bacpac
+
+# Dados locais dos agentes
+.agents/*
+!.agents/skills/
+!.agents/skills/**
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Documentação acadêmica original - uso local
+/docs/Documentacao_Requisita+.docx

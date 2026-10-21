@@ -1,0 +1,29 @@
+@model RequisitaPlus.Web.ViewModels.Analises.ResultadoAnaliseViewModel
+@inject RequisitaPlus.Web.Services.RelogioLocal Relogio
+@{ ViewData["Title"] = "Resultado da análise"; }
+<span class="eyebrow">Inteligência artificial local</span>
+<h1>Resultado da análise</h1>
+<p class="alert alert-info">@(Model.Atual ? "Análise mais recente da versão atual." : "Análise histórica: não representa a análise mais recente da versão atual.") Sugestões da IA exigem revisão humana. O requisito não foi reescrito automaticamente.</p>
+<p>Versão @Model.Analise.VersaoTextualAnalisada · Modelo @Model.Analise.Modelo · @Relogio.ParaApresentacao(Model.Analise.PersistidaEmUtc).ToString("dd/MM/yyyy HH:mm:ss") (São Paulo)</p>
+<section class="surface mb-4">
+<span class="eyebrow">Texto original analisado</span>
+<h2 class="h4 text-break">@Model.Analise.TituloAnalisado</h2>
+<div class="text-snapshot mb-3">@Model.Analise.DescricaoAnalisada</div>
+</section>
+<h2 class="h4 mb-3">Problemas identificados</h2>
+@if (Model.Sugestoes.Count == 0)
+{
+    <p>Nenhum problema textual identificado pela IA. Isso não certifica a qualidade do requisito e não conclui a revisão humana.</p>
+}
+@foreach (var sugestao in Model.Sugestoes)
+{
+    <article class="analysis-card">
+        <h3 class="h5">@sugestao.OrdemNoResultado. @sugestao.TipoProblema</h3>
+        <p style="white-space:pre-wrap">@sugestao.Explicacao</p>
+        <h4 class="h6">Sugestão de reescrita</h4>
+        <p class="suggested-text">@(string.IsNullOrWhiteSpace(sugestao.TextoSugerido) ? "Sem reescrita disponível. Defina os critérios ausentes antes de revisar a redação." : sugestao.TextoSugerido)</p>
+        <p class="mb-0">Decisão humana: <span class="status-badge">@sugestao.Decisao</span></p>
+    </article>
+}
+<a asp-action="Historico" asp-route-id="@Model.Analise.IdRequisito" class="btn btn-outline-secondary">Histórico</a>
+<a asp-controller="Requisitos" asp-action="Detalhes" asp-route-id="@Model.Analise.IdRequisito" class="btn btn-primary">Voltar ao requisito</a>
